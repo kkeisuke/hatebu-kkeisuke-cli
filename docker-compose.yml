@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  htb:
+    build:
+      context: .
+    env_file: .env
+    volumes:
+      - .:/go/src/github.com/kkeisuke/hatebu-kkeisuke-cli
+    tty:
+      true
