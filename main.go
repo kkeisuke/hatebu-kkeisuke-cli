@@ -4,8 +4,10 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strings"
 
-	"github.com/kkeisuke/hatebu-kkeisuke-cli/api/algolia"
+	"github.com/kkeisuke/hatebu-kkeisuke-cli/domain/entity"
+	"github.com/kkeisuke/hatebu-kkeisuke-cli/domain/service"
 )
 
 const (
@@ -26,30 +28,20 @@ func main() {
 Run 実行
 */
 func Run(args []string) int {
-	var freeword string
-	flag.StringVar(&freeword, "freeword", "", "search keyword")
-	flag.StringVar(&freeword, "f", "", "search keyword")
-	var perPage int
-	flag.IntVar(&perPage, "perPage", DefaultPerPage, "per page")
-	flag.IntVar(&perPage, "p", DefaultPerPage, "per page")
+	flgEntity := entity.HtbSearchFlagEntity{}
+	flag.StringVar(&flgEntity.Freeword, "freeword", "", "search keyword")
+	flag.StringVar(&flgEntity.Freeword, "f", "", "search keyword")
+	flag.IntVar(&flgEntity.PerPage, "perPage", DefaultPerPage, "per page")
+	flag.IntVar(&flgEntity.PerPage, "p", DefaultPerPage, "per page")
 	flag.Parse()
 
-	if freeword == "" {
+	if strings.TrimSpace(flgEntity.Freeword) == "" {
 		fmt.Fprintf(os.Stderr, "empty freeword \n\n htb -f <freeword>\n\n")
 		return ExitCodeError
 	}
 
-	htb := &algolia.HtbSearch{}
-	htb.Setup()
-	htb.Opt.HitsPerPage = perPage
-
-	results, err := htb.Search(freeword)
-
-	if err != nil {
-		return ExitCodeError
-	}
-
-	output, err := htb.ParseRawData(freeword, results)
+	htb := service.AlgoliaHtbSearchService{}
+	output, err := htb.Search(flgEntity)
 
 	if err != nil {
 		return ExitCodeError
