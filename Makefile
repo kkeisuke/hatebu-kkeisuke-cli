@@ -7,3 +7,10 @@ INDEX := $(PACKAGE_NAME).indexName=$(ALGOLIA_INDEX)
 .PHONY: build
 build:
 	GOOS=darwin GOARCH=amd64 go build -o bin/$(COMMAND) -ldflags "-X $(APPLICATION) -X $(API_KEY) -X $(INDEX)"
+
+.PHONY: test
+test:
+	go test -v -cover -coverpkg=github.com/kkeisuke/hatebu-kkeisuke-cli/api/algolia github.com/kkeisuke/hatebu-kkeisuke-cli/api/algolia_test
+	go test -v -cover -coverpkg=github.com/kkeisuke/hatebu-kkeisuke-cli/domain/service github.com/kkeisuke/hatebu-kkeisuke-cli/domain/service_test
+	go test -v -cover -coverpkg=github.com/kkeisuke/hatebu-kkeisuke-cli/domain/value github.com/kkeisuke/hatebu-kkeisuke-cli/domain/value_test
+	go test -v -cover

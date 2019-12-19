@@ -28,12 +28,13 @@ func main() {
 Run 実行
 */
 func Run(args []string) int {
+	flg := flag.NewFlagSet(args[0], flag.ExitOnError)
 	flgEntity := entity.HtbSearchFlagEntity{}
-	flag.StringVar(&flgEntity.Freeword, "freeword", "", "search keyword")
-	flag.StringVar(&flgEntity.Freeword, "f", "", "search keyword")
-	flag.IntVar(&flgEntity.PerPage, "perPage", DefaultPerPage, "per page")
-	flag.IntVar(&flgEntity.PerPage, "p", DefaultPerPage, "per page")
-	flag.Parse()
+	flg.StringVar(&flgEntity.Freeword, "freeword", "", "search keyword")
+	flg.StringVar(&flgEntity.Freeword, "f", "", "search keyword")
+	flg.IntVar(&flgEntity.PerPage, "perPage", DefaultPerPage, "per page")
+	flg.IntVar(&flgEntity.PerPage, "p", DefaultPerPage, "per page")
+	flg.Parse(args[1:])
 
 	if strings.TrimSpace(flgEntity.Freeword) == "" {
 		fmt.Fprintf(os.Stderr, "empty freeword \n\n htb -f <freeword>\n\n")
