@@ -19,8 +19,8 @@ test:
 lint:
 	go vet ./...; golint -set_exit_status ./...
 
-.PHONY: setup-cli
-setup-cli:
+.PHONY: setup-ci
+setup-ci:
 	GOBIN=$(pwd)/bin go get golang.org/x/lint/golint
 
 .PHONY: lint-ci
