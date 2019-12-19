@@ -10,7 +10,7 @@ import (
 	"github.com/kkeisuke/hatebu-kkeisuke-cli/domain/entity"
 )
 
-var (
+const (
 	yellow = "33"
 	cyan   = "36"
 )
@@ -26,7 +26,7 @@ type AlgoliaHtbSearchResultValue struct {
 ParseRawData 検索結果（1日分のブックマーク）から該当項目のみ抽出します
 */
 func (val *AlgoliaHtbSearchResultValue) ParseRawData(freeword string) (result string, err error) {
-	if freeword == "" {
+	if strings.TrimSpace(freeword) == "" {
 		return
 	}
 
