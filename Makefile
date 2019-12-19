@@ -4,6 +4,10 @@ APPLICATION := $(PACKAGE_NAME).application=$(ALGOLIA_APPLICATION)
 API_KEY := $(PACKAGE_NAME).apiKey=$(ALGOLIA_API_KEY)
 INDEX := $(PACKAGE_NAME).indexName=$(ALGOLIA_INDEX)
 
+.PHONY: setup
+setup:
+	go get golang.org/x/lint/golint
+
 .PHONY: build
 build:
 	GOOS=darwin GOARCH=amd64 go build -o bin/$(COMMAND) -ldflags "-X $(APPLICATION) -X $(API_KEY) -X $(INDEX)"
@@ -14,3 +18,7 @@ test:
 	go test -v -cover -coverpkg=github.com/kkeisuke/hatebu-kkeisuke-cli/domain/service github.com/kkeisuke/hatebu-kkeisuke-cli/domain/service_test
 	go test -v -cover -coverpkg=github.com/kkeisuke/hatebu-kkeisuke-cli/domain/value github.com/kkeisuke/hatebu-kkeisuke-cli/domain/value_test
 	go test -v -cover
+
+.PHONY: lint
+lint:
+	go vet ./...; golint -set_exit_status ./...
