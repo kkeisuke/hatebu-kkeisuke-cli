@@ -1,4 +1,4 @@
-name: test
+name: Test
 
 on: [push]
 
@@ -17,4 +17,8 @@ jobs:
     - name: Lint
       run: make lint-ci
     - name: Test
+      env:
+        ALGOLIA_APPLICATION: ${{ secrets.ALGOLIA_APPLICATION }}
+        ALGOLIA_API_KEY: ${{ secrets.ALGOLIA_API_KEY }}
+        ALGOLIA_INDEX: ${{ secrets.ALGOLIA_INDEX }}
       run: make test
