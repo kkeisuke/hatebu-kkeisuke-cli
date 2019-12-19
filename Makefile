@@ -21,7 +21,7 @@ lint:
 
 .PHONY: setup-ci
 setup-ci:
-	GOBIN=$(pwd)/bin go get golang.org/x/lint/golint
+	GO111MODULE=off GOBIN=$(pwd)/bin go get golang.org/x/lint/golint
 
 .PHONY: lint-ci
 lint-ci:
