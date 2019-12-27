@@ -5,10 +5,9 @@ ENV GO111MODULE="on"
 WORKDIR /go/src/github.com/kkeisuke/hatebu-kkeisuke-cli
 
 RUN go get \
-  golang.org/x/lint/golint \
-  # realize の 依存関係の不具合のため、urfave/cli を手動で入れる
-  # https://github.com/oxequa/realize/issues/253#issuecomment-532077068
-  gopkg.in/urfave/cli.v2@master \
-  github.com/oxequa/realize
+  golang.org/x/lint/golint
 
-CMD realize start
+RUN curl -fLo /go/bin/air https://raw.githubusercontent.com/cosmtrek/air/master/bin/linux/air
+RUN chmod +x /go/bin/air
+
+CMD air
